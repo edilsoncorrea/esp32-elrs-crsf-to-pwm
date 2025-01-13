@@ -39,9 +39,23 @@ void ControlarMotor(int valorEixo) {
     return;
   }
 
-  analogWrite(IN1, valorEixo > 0 ? valorEixoAbsoluto : 0);
-  analogWrite(IN2, valorEixo < 0 ? valorEixoAbsoluto : 0);
+
+  // analogWrite(IN1, 512);
+  // analogWrite(IN2, 900);
+
+  int valorFrente = valorEixo > 0 ? valorEixoAbsoluto : 0;
+  int valorRe = valorEixo < 0 ? valorEixoAbsoluto : 0;
+
+
+  analogWrite(IN1, valorFrente);
+  analogWrite(IN2, valorRe);
   digitalWrite(ENA, HIGH);
+
+  Serial.print("Frente: ");
+  Serial.print(valorFrente);
+
+  Serial.print("\nRe: ");
+  Serial.println(valorRe);
 }
 
 
@@ -69,8 +83,8 @@ void loop() {
       dutyCycle = constrain(dutyCycle, -255, 255);
 
 
-      Serial.print("Thritle_0: ");
-      Serial.println(dutyCycle);
+      // Serial.print("Thritle_0: ");
+      // Serial.println(dutyCycle);
 
       ControlarMotor(dutyCycle);
 

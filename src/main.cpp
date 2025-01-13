@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#include <ESP32Servo.h>
 
 const int receiverPin = 2;  
 volatile unsigned long pulseStart = 0;
@@ -51,11 +50,14 @@ void ControlarMotor(int valorEixo) {
   analogWrite(IN2, valorRe);
   digitalWrite(ENA, HIGH);
 
-  Serial.print("Frente: ");
-  Serial.print(valorFrente);
+  // Serial.print("Eixo: ");
+  // Serial.print(valorEixo);
 
-  Serial.print("\nRe: ");
-  Serial.println(valorRe);
+  // Serial.print("\tFrente: ");
+  // Serial.print(valorFrente);
+
+  // Serial.print("\tRe: ");
+  // Serial.println(valorRe);
 }
 
 
@@ -79,12 +81,18 @@ void loop() {
       width = pulseWidth;
       interrupts();
 
-      int dutyCycle = map(width, 1000, 2000, -255, 255);
-      dutyCycle = constrain(dutyCycle, -255, 255);
+      int resolucao = 230;
+
+      int dutyCycle = map(width, 991, 2014, -resolucao, resolucao);
+      dutyCycle = min(dutyCycle, resolucao);
+      dutyCycle = max(dutyCycle, -resolucao);
 
 
-      // Serial.print("Thritle_0: ");
-      // Serial.println(dutyCycle);
+      Serial.print("width: ");
+      Serial.print(width);
+
+      Serial.print("\tdutyCycle: ");
+      Serial.println(dutyCycle);
 
       ControlarMotor(dutyCycle);
 
